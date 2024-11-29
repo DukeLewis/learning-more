@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="learning.more.dao.mapper.StudentScoreMapper">
+
+    <resultMap id="BaseResultMap" type="learning.more.model.domain.StudentScore">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="studentId" column="student_id" jdbcType="INTEGER"/>
+            <result property="courseId" column="course_id" jdbcType="INTEGER"/>
+            <result property="score" column="score" jdbcType="DOUBLE"/>
+            <result property="updatedTime" column="updated_time" jdbcType="TIMESTAMP"/>
+            <result property="createdTime" column="created_time" jdbcType="TIMESTAMP"/>
+            <result property="isDeleted" column="is_deleted" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,student_id,course_id,
+        score,updated_time,created_time,
+        is_deleted
+    </sql>
+</mapper>

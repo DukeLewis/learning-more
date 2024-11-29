@@ -1,0 +1,62 @@
+app:
+  environment: dev
+
+#langchain4j:
+#  open-ai:
+#    chat-model:
+#      model-name: gpt-4o-mini
+#      temperature: 0.7
+#      api-key: sk-134OV0NrktspZT8I0e0f51Bc44E34586BaEc2dBe2bB4F5Aa
+#      log-requests: true
+#      log-responses: true
+#      base-url: https://xiaoai.plus/v1
+#tavily:
+#  api-key: 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
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/llm_code_check?useSSL=false&useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root
+    password: hjl20030110
+  servlet:
+    multipart:
+      max-file-size: 50MB
+
+#postgres:
+#  host: localhost
+#  port: 5432
+#  username: postgres
+#  password: root123
+#  database: vector_1
+#  table: test1
+#  dimension: 4096
+
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath:mapper/*.xml
+knife4j:
+  enable: true
+
+# minio 配置
+#minio:
+#  host: 192.168.136.129:9008
+#  username: minio_root
+#  password: minio_123456
+
+# springdoc-openapi项目配置
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: 'default'
+      paths-to-match: '/**'
+      packages-to-scan: llm.code.check.controller
+api:
+  config:
+    cross-origin: '*'
