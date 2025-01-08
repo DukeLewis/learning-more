@@ -15,12 +15,14 @@ app:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/llm_code_check?useSSL=false&useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://localhost:3306/learning_more?useSSL=false&useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
     username: root
     password: hjl20030110
   servlet:
     multipart:
       max-file-size: 50MB
+  jackson:
+    date-format: yyyy-MM-dd
 
 #postgres:
 #  host: localhost
@@ -56,7 +58,7 @@ springdoc:
   group-configs:
     - group: 'default'
       paths-to-match: '/**'
-      packages-to-scan: llm.code.check.controller
+      packages-to-scan: learning.more.controller
 api:
   config:
     cross-origin: '*'

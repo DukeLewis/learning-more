@@ -19,10 +19,16 @@ import lombok.Data;
 @Builder
 public class User implements Serializable {
     /**
-     * 主键id
+     * 主键 id
      */
     @TableId(value = "id")
     private Integer id;
+
+    /**
+     * 姓名
+     */
+    @TableField(value = "name")
+    private String name;
 
     /**
      * 用户名称

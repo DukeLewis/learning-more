@@ -6,20 +6,33 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.Date;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
- * 
+ *
  * @TableName class
  */
 @TableName(value ="class")
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Class implements Serializable {
     /**
      * 主键id
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
+
+    /**
+     * 班级管理老师 id
+     */
+    @TableField(value = "teacher_id")
+    private Long teacherId;
 
     /**
      * 班级名称

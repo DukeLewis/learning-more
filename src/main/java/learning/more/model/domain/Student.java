@@ -9,7 +9,7 @@ import java.util.Date;
 import lombok.Data;
 
 /**
- * 
+ *
  * @TableName student
  */
 @TableName(value ="student")
@@ -26,6 +26,18 @@ public class Student implements Serializable {
      */
     @TableField(value = "name")
     private String name;
+
+    /**
+     * 性别
+     */
+    @TableField(value = "gender")
+    private String gender;
+
+    /**
+     * 年龄
+     */
+    @TableField(value = "age")
+    private Integer age;
 
     /**
      * 所属班级id

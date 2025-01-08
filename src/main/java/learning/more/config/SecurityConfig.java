@@ -102,9 +102,13 @@ public class SecurityConfig {
                                 "/webjars/springfox-swagger-ui/**",
                                 "/swagger-resources",
                                 "/v3/api-docs/**",
-                                "/api/auth/**",
+                                "/api/user/**",
                                 "/api/test/**",
-                                "/api/session/**"
+                                "/api/session/**",
+                                "/api/class/listClassOverview",
+                                "/api/class/getClassInfo",
+                                "/api/student/listStudentOverview",
+                                "/api/class/deleteClass"
                         )
                         .permitAll()
                         .anyRequest()

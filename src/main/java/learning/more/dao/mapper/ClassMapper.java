@@ -2,6 +2,8 @@ package learning.more.dao.mapper;
 
 import learning.more.model.domain.Class;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import learning.more.model.vo.ClassInfoVO;
+import org.apache.ibatis.annotations.Param;
 
 /**
 * @author ASUS
@@ -10,7 +12,12 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 * @Entity generator.domain.Class
 */
 public interface ClassMapper extends BaseMapper<Class> {
-
+    /**
+     * 获取班级详细信息
+     * @param id 班级 id
+     * @return 班级详细信息
+     */
+    ClassInfoVO getClassInfo(@Param("id") Long id);
 }
 
 
