@@ -9,14 +9,14 @@ import lombok.NoArgsConstructor;
 /**
  * @description:
  * @author：dukelewis
- * @date: 2025/1/2
+ * @date: 2025/1/22
  * @Copyright： https://github.com/DukeLewis
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Tag(name = "学生信息概览VO")
-public class StudentOverviewVO {
+@Tag(name = "学生信息DTO")
+public class StudentInfoDTO {
     @Schema(description = "学生 id")
     private Long id;
 

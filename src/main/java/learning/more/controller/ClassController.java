@@ -37,14 +37,12 @@ public class ClassController {
         return classService.getClassInfo(id);
     }
 
-    // todo 删除班级接口
     @DeleteMapping("/deleteClass")
     @Operation(summary = "删除班级")
     public SuccessVO deleteClass(@RequestParam("id") @Parameter(description = "班级 id") Long id){
         return classService.deleteClass(id);
     }
 
-    // todo 修改班级信息接口
     @PutMapping("/updateClassInfo")
     @Operation(summary = "修改班级信息")
     public SuccessVO updateClassInfo(@RequestBody ClassInfoVO classInfoVO){

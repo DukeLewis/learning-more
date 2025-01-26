@@ -1,9 +1,11 @@
 package learning.more.dao.impl;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import learning.more.model.domain.Student;
 import learning.more.dao.StudentDao;
 import learning.more.dao.mapper.StudentMapper;
+import learning.more.model.vo.PageItem;
 import learning.more.model.vo.StudentOverviewVO;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,12 @@ public class StudentDaoImpl extends ServiceImpl<StudentMapper, Student>
     @Override
     public List<StudentOverviewVO> listStudentOverview(Long classId) {
         return this.baseMapper.listStudentOverview(classId);
+    }
+
+    @Override
+    public PageItem<List<StudentOverviewVO>> listStudentOverviewPage(Integer page, Integer limit) {
+        Page<StudentOverviewVO> studentOverviewVOS = this.baseMapper.listStudentOverviewPage(Page.of(page, limit));
+        return new PageItem<>(studentOverviewVOS.getTotal(), studentOverviewVOS.getPages(), page, studentOverviewVOS.getRecords());
     }
 }
 

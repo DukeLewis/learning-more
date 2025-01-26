@@ -6,7 +6,11 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.Date;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  *
@@ -14,6 +18,9 @@ import lombok.Data;
  */
 @TableName(value ="student")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Student implements Serializable {
     /**
      * 主键id
@@ -43,7 +50,7 @@ public class Student implements Serializable {
      * 所属班级id
      */
     @TableField(value = "class_id")
-    private Integer classId;
+    private Long classId;
 
     /**
      * 更新时间

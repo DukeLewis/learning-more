@@ -7,6 +7,18 @@
     <select id="listStudentOverview" resultType="learning.more.model.vo.StudentOverviewVO">
         SELECT id, name, gender, age
         FROM student
-        WHERE class_id = #{classId} AND deleted = 0
+        WHERE class_id = #{classId} AND is_deleted = 0
+    </select>
+    <select id="listStudentOverviewPage" resultType="learning.more.model.vo.StudentOverviewVO">
+        SELECT s.id id,
+               s.name name,
+               s.gender gender,
+               s.age age,
+               c.name className
+        FROM student s
+                 LEFT JOIN class c ON s.class_id = c.id
+        WHERE s.is_deleted = 0
+          AND c.is_deleted = 0
+        ORDER BY s.created_time
     </select>
 </mapper>

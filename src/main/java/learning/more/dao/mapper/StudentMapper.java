@@ -1,7 +1,9 @@
 package learning.more.dao.mapper;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import learning.more.model.domain.Student;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import learning.more.model.vo.PageItem;
 import learning.more.model.vo.StudentOverviewVO;
 import org.apache.ibatis.annotations.Param;
 
@@ -20,6 +22,13 @@ public interface StudentMapper extends BaseMapper<Student> {
      * @return 班级信息概览列表
      */
     List<StudentOverviewVO> listStudentOverview(@Param("classId") Long classId);
+
+    /**
+     * 获取班级信息概览分页列表
+     * @param pageList 分页对象
+     * @return 分页数据结果
+     */
+    Page<StudentOverviewVO> listStudentOverviewPage(@Param("pageList") Page<StudentOverviewVO> pageList);
 }
 
 

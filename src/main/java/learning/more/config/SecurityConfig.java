@@ -108,7 +108,12 @@ public class SecurityConfig {
                                 "/api/class/listClassOverview",
                                 "/api/class/getClassInfo",
                                 "/api/student/listStudentOverview",
-                                "/api/class/deleteClass"
+                                "/api/class/deleteClass",
+                                "/api/class/updateClassInfo",
+                                "/api/student/listStudentOverviewPage",
+                                "/api/student/createStudent",
+                                "/api/student/updateStudent",
+                                "/api/student/deleteStudent"
                         )
                         .permitAll()
                         .anyRequest()

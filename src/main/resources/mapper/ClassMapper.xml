@@ -15,6 +15,6 @@
         FROM `class` c
         JOIN `user` u
         ON c.teacher_id = u.id
-        WHERE c.id = #{id} AND c.deleted = 0
+        WHERE c.id = #{id} AND c.is_deleted = 0
     </select>
 </mapper>
