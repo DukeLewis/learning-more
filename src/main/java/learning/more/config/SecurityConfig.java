@@ -127,6 +127,9 @@ public class SecurityConfig {
                                 "/api/course/updateCourse",
                                 "/api/course/generateCourseBaseInfo",
                                 "/api/school/listSchoolOverviewPage",
+                                "/api/school/updateSchool",
+                                "/api/school/createSchool",
+                                "/api/school/deleteSchool",
                                 "/api/ai/test"
                         )
                         .permitAll()
