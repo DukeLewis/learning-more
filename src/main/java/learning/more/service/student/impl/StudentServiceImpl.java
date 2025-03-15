@@ -62,7 +62,7 @@ public class StudentServiceImpl implements IStudentService {
                 .updatedTime(date)
                 .isDeleted(0)
                 .build());
-        if(!save) {
+        if (!save) {
             throw new ApplicationException(AppResult.failed(ResultCode.FAILED));
         }
         return SuccessVO.successNotData();
@@ -74,7 +74,7 @@ public class StudentServiceImpl implements IStudentService {
             throw new ApplicationException(AppResult.failed(ResultCode.FAILED_PARAMS_VALIDATE));
         }
         boolean removed = studentDao.removeById(studentId);
-        if(!removed) {
+        if (!removed) {
             throw new ApplicationException(AppResult.failed(ResultCode.FAILED));
         }
         return SuccessVO.successNotData();
@@ -91,6 +91,7 @@ public class StudentServiceImpl implements IStudentService {
                 .eq(Class::getName, studentInfoDTO.getClassName())
                 .eq(Class::getIsDeleted, 0).one();
         boolean updated = studentDao.updateById(Student.builder()
+                .id(studentInfoDTO.getId())
                 .name(studentInfoDTO.getName())
                 .gender(studentInfoDTO.getGender())
                 .age(studentInfoDTO.getAge())
@@ -98,7 +99,7 @@ public class StudentServiceImpl implements IStudentService {
                 .updatedTime(new Date())
                 .isDeleted(0)
                 .build());
-        if(!updated) {
+        if (!updated) {
             throw new ApplicationException(AppResult.failed(ResultCode.FAILED));
         }
         return SuccessVO.successNotData();

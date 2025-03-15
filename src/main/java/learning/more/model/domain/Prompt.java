@@ -10,40 +10,34 @@ import lombok.Data;
 
 /**
  *
- * @TableName school
+ * @TableName prompt
  */
-@TableName(value ="school")
+@TableName(value ="prompt")
 @Data
-public class School implements Serializable {
+public class Prompt implements Serializable {
     /**
-     * 主键id
+     * 主键
      */
     @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    private Integer id;
 
     /**
-     * 学校名称
+     * 提示词
      */
-    @TableField(value = "name")
-    private String name;
+    @TableField(value = "prompt")
+    private String prompt;
 
     /**
-     * 所在位置
+     * 提示词类型
      */
-    @TableField(value = "position")
-    private String position;
+    @TableField(value = "prompt_type")
+    private String promptType;
 
     /**
-     * 学生数量
+     * 是否启用
      */
-    @TableField(value = "quantity")
-    private Integer quantity;
-
-    /**
-     * 更新时间
-     */
-    @TableField(value = "updated_time")
-    private Date updatedTime;
+    @TableField(value = "active")
+    private Integer active;
 
     /**
      * 创建时间
@@ -52,10 +46,10 @@ public class School implements Serializable {
     private Date createdTime;
 
     /**
-     * 逻辑删除
+     * 更新时间
      */
-    @TableField(value = "is_deleted")
-    private Integer isDeleted;
+    @TableField(value = "updated_time")
+    private Date updatedTime;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

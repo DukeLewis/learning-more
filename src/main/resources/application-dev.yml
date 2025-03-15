@@ -1,15 +1,15 @@
 app:
   environment: dev
 
-#langchain4j:
-#  open-ai:
-#    chat-model:
-#      model-name: gpt-4o-mini
-#      temperature: 0.7
-#      api-key: sk-134OV0NrktspZT8I0e0f51Bc44E34586BaEc2dBe2bB4F5Aa
-#      log-requests: true
-#      log-responses: true
-#      base-url: https://xiaoai.plus/v1
+langchain4j:
+  open-ai:
+    chat-model:
+      model-name: glm-4
+      temperature: 0.7
+      api-key: 9bba143e484c4e9b9548b77495611448.4vvv31x16USBKHMo
+      log-requests: true
+      log-responses: true
+      base-url: https://open.bigmodel.cn/api/paas/v4/
 #tavily:
 #  api-key: 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
 spring:
@@ -62,3 +62,9 @@ springdoc:
 api:
   config:
     cross-origin: '*'
+
+logging:
+  level:
+    org:
+      springframework:
+        security: debug

@@ -24,8 +24,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
 
 import java.util.Collections;
+import java.util.List;
 
 /**
  * @description:
@@ -90,9 +95,11 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
-                .csrf().disable()
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .csrf(csrf -> csrf.disable())
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
+//                .authorizeHttpRequests(request -> request.requestMatchers(HttpMethod.OPTIONS, "/api/course/generateCourseBaseInfo"))
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/doc.html",
                                 "/webjars/js/**",
@@ -113,7 +120,14 @@ public class SecurityConfig {
                                 "/api/student/listStudentOverviewPage",
                                 "/api/student/createStudent",
                                 "/api/student/updateStudent",
-                                "/api/student/deleteStudent"
+                                "/api/student/deleteStudent",
+                                "/api/course/listCourseOverviewPage",
+                                "/api/course/getCourseDetail",
+                                "/api/course/deleteCourse",
+                                "/api/course/updateCourse",
+                                "/api/course/generateCourseBaseInfo",
+                                "/api/school/listSchoolOverviewPage",
+                                "/api/ai/test"
                         )
                         .permitAll()
                         .anyRequest()
@@ -136,5 +150,19 @@ public class SecurityConfig {
 //        source.registerCorsConfiguration("/**", configuration);
 //        return source;
 //    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of("*")); // 允许的前端地址
+        configuration.setAllowedMethods(List.of("*"));
+        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+        configuration.setExposedHeaders(List.of("Cache-Control", "Content-Language", "Content-Type"));
+//        configuration.setAllowCredentials(true); // 允许 Cookie（如果有需要）
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
 
 }

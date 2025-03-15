@@ -157,6 +157,11 @@
 <!--            <artifactId>langchain4j-web-search-engine-tavily</artifactId>-->
 <!--            <version>0.34.0</version>-->
 <!--        </dependency>-->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-text</artifactId>
+            <version>1.10.0</version>
+        </dependency>
     </dependencies>
 
 </project>

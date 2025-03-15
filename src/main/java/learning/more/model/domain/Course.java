@@ -6,14 +6,21 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.Date;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
- * 
+ *
  * @TableName course
  */
 @TableName(value ="course")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Course implements Serializable {
     /**
      * 主键id
@@ -38,6 +45,48 @@ public class Course implements Serializable {
      */
     @TableField(value = "type")
     private String type;
+
+    /**
+     * 课程描述
+     */
+    @TableField(value = "description")
+    private String description;
+
+    /**
+     * 适用年龄范围（如“3-4岁”）
+     */
+    @TableField(value = "age_group")
+    private String ageGroup;
+
+    /**
+     * 单节课时长（分钟）
+     */
+    @TableField(value = "duration")
+    private Integer duration;
+
+    /**
+     * 课程总节数
+     */
+    @TableField(value = "total_sessions")
+    private Integer totalSessions;
+
+    /**
+     * 课程开始日期
+     */
+    @TableField(value = "start_date")
+    private Date startDate;
+
+    /**
+     * 课程结束日期
+     */
+    @TableField(value = "end_date")
+    private Date endDate;
+
+    /**
+     * 课程最大学生人数
+     */
+    @TableField(value = "max_students")
+    private Integer maxStudents;
 
     /**
      * 更新时间
