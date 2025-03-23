@@ -16,9 +16,10 @@ public interface ClassDao extends IService<Class> {
 
     /**
      * 获取班级概览
+     * @param schoolId 学校 id
      * @return 班级概览信息列表
      */
-    List<ClassOverviewVO> listClassOverview();
+    List<ClassOverviewVO> listClassOverview(Long schoolId);
 
     /**
      * 获取班级详细信息

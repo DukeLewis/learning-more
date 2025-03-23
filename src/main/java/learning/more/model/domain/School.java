@@ -34,6 +34,12 @@ public class School implements Serializable {
     private String name;
 
     /**
+     * 租户id
+     */
+    @TableField(value = "tenant_id")
+    private String tenantId;
+
+    /**
      * 所在位置
      */
     @TableField(value = "position")

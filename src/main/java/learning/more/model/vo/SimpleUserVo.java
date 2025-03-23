@@ -21,4 +21,7 @@ public class SimpleUserVo {
 
     /** 用户名*/
     private String username;
+
+    /** 租户 id */
+    private Long tenantId;
 }

@@ -15,6 +15,7 @@ import learning.more.model.vo.CourseOverviewVO;
 import learning.more.model.vo.PageItem;
 import learning.more.model.vo.SchoolOverviewVO;
 import learning.more.model.vo.SuccessVO;
+import learning.more.service.auth.UserHolder;
 import learning.more.service.school.ISchoolService;
 import learning.more.util.StringUtil;
 import org.springframework.stereotype.Service;
@@ -42,6 +43,7 @@ public class SchoolServiceImpl implements ISchoolService {
         Page<School> schoolPage = schoolDao.getBaseMapper().selectPage(pageObj,
                 new LambdaQueryWrapper<School>()
                         .select(School::getId, School::getName, School::getPosition, School::getQuantity)
+                        .eq(UserHolder.getTenantId() != null && UserHolder.getTenantId() >= 0, School::getTenantId, UserHolder.getTenantId())
                         .eq(School::getIsDeleted, 0)
                         .like(!StringUtil.isNullAndEmpty(searchString), School::getName, searchString));
         List<SchoolOverviewVO> schoolOverviewVOS = schoolPage.getRecords()

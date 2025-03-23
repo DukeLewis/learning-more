@@ -27,8 +27,8 @@ public class ClassController {
 
     @GetMapping("/listClassOverview")
     @Operation(summary = "获取班级信息概览列表")
-    public List<ClassOverviewVO> listClassOverview(){
-        return classService.listClassOverview();
+    public List<ClassOverviewVO> listClassOverview(@RequestParam(name = "schoolId", required = false) @Parameter(description = "学校 id") Long schoolId){
+        return classService.listClassOverview(schoolId);
     }
 
     @GetMapping("/getClassInfo")

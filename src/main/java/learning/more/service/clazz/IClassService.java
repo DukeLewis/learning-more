@@ -15,9 +15,10 @@ import java.util.List;
 public interface IClassService {
     /**
      * 获取班级信息概览
+     * @param schoolId 学校 id
      * @return 班级信息概览列表
      */
-    List<ClassOverviewVO> listClassOverview();
+    List<ClassOverviewVO> listClassOverview(Long schoolId);
 
     /**
      * 获取班级详细信息

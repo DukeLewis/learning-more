@@ -7,13 +7,19 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.Date;
 import lombok.Data;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 /**
- * 
+ *
  * @TableName weekly_plan
  */
 @TableName(value ="weekly_plan")
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class WeeklyPlan implements Serializable {
     /**
      * 主键id
@@ -25,13 +31,25 @@ public class WeeklyPlan implements Serializable {
      * 周计划名称
      */
     @TableField(value = "name")
-    private Integer name;
+    private String name;
+
+    /**
+     * 周计划所属学校id
+     */
+    @TableField(value = "school_id")
+    private Long schoolId;
 
     /**
      * 周计划所属班级id
      */
     @TableField(value = "class_id")
-    private Integer classId;
+    private Long classId;
+
+    /**
+     * 周计划创建者
+     */
+    @TableField(value = "author")
+    private String author;
 
     /**
      * 更新时间

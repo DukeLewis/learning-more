@@ -34,4 +34,8 @@ public class UserHolder {
     public static String getUsername() {
         return getUser().getUsername();
     }
+
+    public static Long getTenantId() {
+        return getUser().getTenantId();
+    }
 }

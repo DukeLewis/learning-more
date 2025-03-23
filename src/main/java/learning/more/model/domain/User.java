@@ -43,6 +43,12 @@ public class User implements Serializable {
     private String password;
 
     /**
+     * 租户id
+     */
+    @TableField(value = "tenant_id")
+    private Long tenantId;
+
+    /**
      * 用户类型
      */
     @TableField(value = "type")

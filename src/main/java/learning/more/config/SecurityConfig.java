@@ -86,7 +86,7 @@ public class SecurityConfig {
             if(user==null){
                 throw new ApplicationException(AppResult.failed(ResultCode.FAILED_USER_NOT_EXISTS));
             }
-            return new AuthUserEntity(username, user.getPassword(), Collections.EMPTY_LIST, user.getId());
+            return new AuthUserEntity(username, user.getPassword(), Collections.EMPTY_LIST, user.getId(), user.getTenantId());
         };
     }
 
@@ -130,6 +130,10 @@ public class SecurityConfig {
                                 "/api/school/updateSchool",
                                 "/api/school/createSchool",
                                 "/api/school/deleteSchool",
+                                "/api/weeklyPlan/updateWeeklyPlan",
+                                "/api/weeklyPlan/createWeeklyPlan",
+                                "/api/weeklyPlan/deleteWeeklyPlan",
+                                "/api/weeklyPlan/listWeeklyPlanPage",
                                 "/api/ai/test"
                         )
                         .permitAll()

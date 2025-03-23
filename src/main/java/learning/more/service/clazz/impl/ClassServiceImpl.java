@@ -27,8 +27,8 @@ public class ClassServiceImpl implements IClassService {
     private ClassDao classDao;
 
     @Override
-    public List<ClassOverviewVO> listClassOverview() {
-        return classDao.listClassOverview();
+    public List<ClassOverviewVO> listClassOverview(Long schoolId) {
+        return classDao.listClassOverview(schoolId);
     }
 
     @Override

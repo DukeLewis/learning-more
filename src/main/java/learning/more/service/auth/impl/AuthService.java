@@ -58,6 +58,7 @@ public class AuthService extends ServiceImpl<UserMapper, User> implements IAuthS
         Map<String, Object> chaim = new HashMap<>();
         chaim.put("username", username);
         chaim.put("id", user.getId());
+        chaim.put("tenantId", user.getTenantId());
         Map<String, String> map = new HashMap<>();
         String jwtToken = JwtUtils.encode(username, -1L, chaim);
         map.put("msg", AuthStatus.SUCCESS.toString());
