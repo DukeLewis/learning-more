@@ -29,8 +29,10 @@ public class WeeklyPlanController {
     public PageItem<List<WeeklyPlanOverviewVO>> listWeeklyPlanPage(
             @RequestParam("pageNum") @Parameter(description = "页码") Integer pageNum,
             @RequestParam("pageSize") @Parameter(description = "每页数量") Integer pageSize,
+            @RequestParam(value = "classId", required = false) @Parameter(description = "班级id") Long classId,
+            @RequestParam(value = "schoolId", required = false) @Parameter(description = "学校id") Long schoolId,
             @RequestParam(value = "searchString", required = false) @Parameter(description = "搜索字符串") String searchString) {
-        return weeklyPlanService.listWeeklyPlanPage(pageNum, pageSize, searchString);
+        return weeklyPlanService.listWeeklyPlanPage(pageNum, pageSize, classId, schoolId, searchString);
     }
 
     @PostMapping("/createWeeklyPlan")

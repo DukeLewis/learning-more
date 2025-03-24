@@ -81,7 +81,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
         long id = Long.parseLong(String.valueOf(claims.get("id")));
 
-        SimpleUserVo simpleUserEntity = new SimpleUserVo(id, (String) claims.get("username"), (Long) claims.get("tenantId"));
+        SimpleUserVo simpleUserEntity = new SimpleUserVo(id, (String) claims.get("username"), Long.parseLong(String.valueOf(claims.get("tenantId"))));
 
         //todo 后续如果需要鉴权可以传入权限列表
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
