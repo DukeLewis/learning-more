@@ -2,6 +2,9 @@ package learning.more.dao.mapper;
 
 import learning.more.model.domain.StudentScore;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import learning.more.model.vo.StudentInfoVo;
+
+import java.util.List;
 
 /**
 * @author ASUS
@@ -10,7 +13,12 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 * @Entity generator.domain.StudentScore
 */
 public interface StudentScoreMapper extends BaseMapper<StudentScore> {
-
+    /**
+     * 根据学生id获取学生成绩信息
+     * @param id 学生id
+     * @return 学生成绩信息
+     */
+    List<StudentInfoVo.StudentScoreVO> listInfoByStudentId(Long id);
 }
 
 

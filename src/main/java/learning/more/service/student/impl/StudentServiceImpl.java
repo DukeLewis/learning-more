@@ -5,14 +5,13 @@ import learning.more.common.AppResult;
 import learning.more.common.enums.ResultCode;
 import learning.more.dao.ClassDao;
 import learning.more.dao.StudentDao;
+import learning.more.dao.StudentScoreDao;
 import learning.more.exception.ApplicationException;
 import learning.more.model.domain.Class;
 import learning.more.model.domain.Student;
-import learning.more.model.vo.PageItem;
-import learning.more.model.vo.StudentInfoDTO;
-import learning.more.model.vo.StudentOverviewVO;
-import learning.more.model.vo.SuccessVO;
+import learning.more.model.vo.*;
 import learning.more.service.student.IStudentService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -32,6 +31,9 @@ public class StudentServiceImpl implements IStudentService {
 
     @Resource
     private ClassDao classDao;
+
+    @Resource
+    private StudentScoreDao studentScoreDao;
 
     @Override
     public List<StudentOverviewVO> listStudentOverview(Long classId) {
@@ -103,5 +105,25 @@ public class StudentServiceImpl implements IStudentService {
             throw new ApplicationException(AppResult.failed(ResultCode.FAILED));
         }
         return SuccessVO.successNotData();
+    }
+
+    @Override
+    public StudentInfoVo getStudentInfo(Long id) {
+        Student student = studentDao.lambdaQuery()
+                .eq(Student::getId, id)
+                .select(Student::getId, Student::getName, Student::getGender,
+                        Student::getAge, Student::getClassId)
+                .one();
+        Class aClass = classDao.lambdaQuery()
+                .eq(Class::getId, student.getClassId())
+                .eq(Class::getIsDeleted, 0)
+                .select(Class::getName)
+                .one();
+        StudentInfoVo studentInfoVo = new StudentInfoVo();
+        BeanUtils.copyProperties(student, studentInfoVo);
+        studentInfoVo.setClassName(aClass == null ? null : aClass.getName());
+        List<StudentInfoVo.StudentScoreVO> studentScoreVOs = studentScoreDao.listInfoByStudentId(id);
+        studentInfoVo.setSubjects(studentScoreVOs);
+        return studentInfoVo;
     }
 }

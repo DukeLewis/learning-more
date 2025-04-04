@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Map;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -39,6 +40,12 @@ public class Course implements Serializable {
      */
     @TableField(value = "teacher_id")
     private Integer teacherId;
+
+    /**
+     * 当前完成度阶段
+     */
+    @TableField(value = "active_step")
+    private Integer activeStep;
 
     /**
      * 课程类型
@@ -108,4 +115,18 @@ public class Course implements Serializable {
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
+
+    public void toMap(Map<String, Object> map) {
+        map.put("name", this.name);
+//        map.put("teacherId", this.teacherId);
+//        map.put("activeStep", this.activeStep);
+        map.put("type", this.type);
+        map.put("description", this.description);
+        map.put("ageGroup", this.ageGroup);
+        map.put("duration", this.duration);
+        map.put("totalSessions", this.totalSessions);
+        map.put("startDate", this.startDate);
+        map.put("endDate", this.endDate);
+        map.put("maxStudents", this.maxStudents);
+    }
 }

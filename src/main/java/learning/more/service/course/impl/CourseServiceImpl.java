@@ -82,8 +82,8 @@ public class CourseServiceImpl implements ICourseService {
         return new CourseDetailVO(course.getId(), course.getName(), course.getDuration(),
                 course.getDescription(), course.getAgeGroup(), course.getMaxStudents(),
                 course.getTotalSessions(), course.getStartDate(), course.getEndDate(),
-                course.getUpdatedTime(), JSON.toJSONString(courseObjectivesList),
-                JSON.toJSONString(courseActivitiesList));
+                course.getUpdatedTime(), course.getActiveStep(), course.getType(), courseObjectivesList,
+                courseActivitiesList);
     }
 
     @Override
@@ -119,19 +119,18 @@ public class CourseServiceImpl implements ICourseService {
                 .set(Course::getTotalSessions, courseUpdateDTO.getTotalSessions())
                 .set(Course::getStartDate, courseUpdateDTO.getStartTime())
                 .set(Course::getEndDate, courseUpdateDTO.getEndTime())
+                .set(courseUpdateDTO.getActiveStep() != null && courseUpdateDTO.getActiveStep() >= 0, Course::getActiveStep, courseUpdateDTO.getActiveStep())
                 .set(Course::getUpdatedTime, new Date())
                 .update();
         boolean updatedActivities = true;
-        if (!StringUtil.isNullAndEmpty(courseUpdateDTO.getActivities())) {
-            List<CourseActivities> courseActivitiesList =
-                    JSON.parseArray(courseUpdateDTO.getActivities(), CourseActivities.class);
-            updatedActivities = courseActivitiesDao.updateBatchById(courseActivitiesList);
+        List<CourseActivities> activities = courseUpdateDTO.getActivities();
+        if (activities != null && !activities.isEmpty()) {
+            updatedActivities = courseActivitiesDao.updateBatchById(activities);
         }
         boolean updatedObjectives = true;
-        if (!StringUtil.isNullAndEmpty(courseUpdateDTO.getObjectives())) {
-            List<CourseObjectives> courseObjectivesList =
-                    JSON.parseArray(courseUpdateDTO.getObjectives(), CourseObjectives.class);
-            updatedObjectives = courseObjectivesDao.updateBatchById(courseObjectivesList);
+        List<CourseObjectives> objectives = courseUpdateDTO.getObjectives();
+        if (objectives != null && !objectives.isEmpty()) {
+            updatedObjectives = courseObjectivesDao.updateBatchById(objectives);
         }
 //        if (!updatedCourse || !updatedActivities || !updatedObjectives) {
 //            throw new ApplicationException(AppResult.failed(ResultCode.FAILED));
@@ -141,7 +140,7 @@ public class CourseServiceImpl implements ICourseService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public SuccessVO createCourse(CourseCreateDTO courseCreateDTO) {
+    public SuccessVO<Long> createCourse(CourseCreateDTO courseCreateDTO) {
         if (courseCreateDTO == null) {
             throw new ApplicationException(AppResult.failed(ResultCode.FAILED_PARAMS_VALIDATE));
         }
@@ -154,27 +153,27 @@ public class CourseServiceImpl implements ICourseService {
                 .totalSessions(courseCreateDTO.getTotalSessions())
                 .startDate(courseCreateDTO.getStartTime())
                 .endDate(courseCreateDTO.getEndTime())
+                .activeStep(0)
+                .type(courseCreateDTO.getType())
                 .updatedTime(new Date())
                 .createdTime(new Date())
                 .isDeleted(0)
                 .build();
         boolean saveCourse = courseDao.save(course);
         boolean savedActivities = true;
-        if (!StringUtil.isNullAndEmpty(courseCreateDTO.getActivities())) {
-            List<CourseActivities> courseActivitiesList =
-                    JSON.parseArray(courseCreateDTO.getActivities(), CourseActivities.class);
-            savedActivities = courseActivitiesDao.saveBatch(courseActivitiesList);
+        List<CourseActivities> activities = courseCreateDTO.getActivities();
+        if (activities != null && !activities.isEmpty()) {
+            savedActivities = courseActivitiesDao.saveBatch(activities);
         }
         boolean savedObjectives = true;
-        if (!StringUtil.isNullAndEmpty(courseCreateDTO.getObjectives())) {
-            List<CourseObjectives> courseObjectivesList =
-                    JSON.parseArray(courseCreateDTO.getObjectives(), CourseObjectives.class);
-            savedObjectives = courseObjectivesDao.saveBatch(courseObjectivesList);
+        List<CourseObjectives> objectives = courseCreateDTO.getObjectives();
+        if (objectives != null && !objectives.isEmpty()) {
+            savedObjectives = courseObjectivesDao.saveBatch(objectives);
         }
 //        if (!saveCourse || !savedActivities || !savedObjectives) {
 //            throw new ApplicationException(AppResult.failed(ResultCode.FAILED));
 //        }
-        return SuccessVO.successNotData();
+        return SuccessVO.successWithData(course.getId());
     }
 
     @Override
@@ -182,7 +181,64 @@ public class CourseServiceImpl implements ICourseService {
         Map<String, Object> map = new HashMap<>();
         map.put("ageGroup", generateCourseDTO.getAgeGroup());
         map.put("maxStudents", generateCourseDTO.getMaxStudents());
+        map.put("type", generateCourseDTO.getType());
         Prompt prompt = promptDao.lambdaQuery().eq(Prompt::getPromptType, PromptType.COURSE_BASE_INFO.toString())
+                .eq(Prompt::getActive, 0).one();
+        String promptRes = StringUtil.parsePromptString(prompt.getPrompt(), map);
+        SseEmitter sseEmitter = new SseEmitter();
+        aiService.createStreamChatCompletionAll(promptRes, sseEmitter);
+        return sseEmitter;
+    }
+
+    @Override
+    public SuccessVO<Long> createCourseFirst(CourseCreateDTO courseCreateDTO) {
+        Course course = Course.builder()
+                .name(courseCreateDTO.getCourseName())
+                .duration(courseCreateDTO.getDuration())
+                .description(courseCreateDTO.getCourseDescription())
+                .ageGroup(courseCreateDTO.getAgeGroup())
+                .maxStudents(courseCreateDTO.getMaxStudents())
+                .totalSessions(courseCreateDTO.getTotalSessions())
+                .startDate(courseCreateDTO.getStartTime())
+                .endDate(courseCreateDTO.getEndTime())
+                .activeStep(0)
+                .type(courseCreateDTO.getType())
+                .updatedTime(new Date())
+                .createdTime(new Date())
+                .isDeleted(0)
+                .build();
+        courseDao.save(course);
+        return SuccessVO.successWithData(course.getId());
+    }
+
+    @Override
+    public SuccessVO<Long> updateCourseFirst(CourseUpdateDTO courseUpdateDTO) {
+        if (courseUpdateDTO.getId() == null || courseUpdateDTO.getId() <= 0) {
+            throw new ApplicationException(AppResult.failed(ResultCode.FAILED_PARAMS_VALIDATE));
+        }
+        Course course = Course.builder()
+                .name(courseUpdateDTO.getCourseName())
+                .duration(courseUpdateDTO.getDuration())
+                .description(courseUpdateDTO.getCourseDescription())
+                .ageGroup(courseUpdateDTO.getAgeGroup())
+                .maxStudents(courseUpdateDTO.getMaxStudents())
+                .totalSessions(courseUpdateDTO.getTotalSessions())
+                .startDate(courseUpdateDTO.getStartTime())
+                .endDate(courseUpdateDTO.getEndTime())
+                .type(courseUpdateDTO.getType())
+                .updatedTime(new Date())
+                .build();
+        courseDao.updateById(course);
+        return SuccessVO.successWithData(courseUpdateDTO.getId());
+    }
+
+    @Override
+    public SseEmitter generateCourseObjectives(Long courseId) {
+        // todo 生成课程目标，未测试
+        Map<String, Object> map = new HashMap<>();
+        Course course = courseDao.getById(courseId);
+        course.toMap(map);
+        Prompt prompt = promptDao.lambdaQuery().eq(Prompt::getPromptType, PromptType.COURSE_OBJECTIVES.toString())
                 .eq(Prompt::getActive, 0).one();
         String promptRes = StringUtil.parsePromptString(prompt.getPrompt(), map);
         SseEmitter sseEmitter = new SseEmitter();

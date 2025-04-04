@@ -2,11 +2,14 @@ package learning.more.model.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import learning.more.model.domain.CourseActivities;
+import learning.more.model.domain.CourseObjectives;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @description:
@@ -46,9 +49,15 @@ public class CourseCreateDTO {
     @Schema(description = "结束时间")
     private Date endTime;
 
+    @Schema(description = "完成阶段")
+    private Integer activeStep;
+
+    @Schema(description = "课程类型")
+    private String type;
+
     @Schema(description = "课程目标")
-    private String objectives;
+    private List<CourseObjectives> objectives;
 
     @Schema(description = "课程活动")
-    private String activities;
+    private List<CourseActivities> activities;
 }

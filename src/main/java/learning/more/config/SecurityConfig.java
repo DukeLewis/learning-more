@@ -163,7 +163,7 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of("*")); // 允许的前端地址
         configuration.setAllowedMethods(List.of("*"));
-        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "x-token", "Accept"));
         configuration.setExposedHeaders(List.of("Cache-Control", "Content-Language", "Content-Type"));
 //        configuration.setAllowCredentials(true); // 允许 Cookie（如果有需要）
 

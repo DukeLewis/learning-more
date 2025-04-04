@@ -2,10 +2,13 @@ package learning.more.model.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import learning.more.model.domain.CourseActivities;
+import learning.more.model.domain.CourseObjectives;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -17,7 +20,6 @@ import java.util.List;
  */
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 @Tag(name = "课程信息详情VO")
 public class CourseDetailVO {
     @Schema(description = "课程 id")
@@ -50,9 +52,20 @@ public class CourseDetailVO {
     @Schema(description = "更新时间")
     private Date updateTime;
 
+    @Schema(description = "完成阶段")
+    private Integer activeStep;
+
+    @Schema(description = "课程类型")
+    private String type;
+
     @Schema(description = "课程目标")
-    private String objectives;
+    private List<CourseObjectives> objectives;
 
     @Schema(description = "课程活动")
-    private String activities;
+    private List<CourseActivities> activities;
+
+    public CourseDetailVO() {
+        objectives = new ArrayList<>();
+        activities = new ArrayList<>();
+    }
 }

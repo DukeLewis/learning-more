@@ -2,6 +2,7 @@ package learning.more.service.ai.api;
 
 import dev.langchain4j.service.Result;
 import jakarta.annotation.Resource;
+import learning.more.common.enums.EventType;
 import learning.more.util.SseUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
@@ -28,6 +29,9 @@ public class AiService {
             try {
                 SseUtil.StreamResultListener streamResultListener = SseUtil.getDefaultStreamResultListener(emitter);
                 aiProviderService.createStreamChatCompletion(prompt, streamResultListener);
+                // 发送关闭连接信息
+                emitter.send(SseEmitter.event().name(EventType.CLOSE.toString()));
+//                emitter.complete();
             } catch (Exception ex) {
                 // 处理异常信息
                 SseUtil.handleSSEError(ex, emitter);

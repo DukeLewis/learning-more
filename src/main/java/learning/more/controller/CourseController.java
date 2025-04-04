@@ -1,6 +1,8 @@
 package learning.more.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import learning.more.model.dto.CourseCreateDTO;
 import learning.more.model.dto.CourseUpdateDTO;
@@ -22,40 +24,64 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/course")
 @CrossOrigin("${api.config.cross-origin}")
+@Tag(name = "课程信息管理")
 public class CourseController {
     @Resource
     private ICourseService courseService;
 
     @GetMapping("/listCourseOverviewPage")
+    @Operation(summary = "分页获取课程概览信息")
     public PageItem<List<CourseOverviewVO>> listCourseOverviewPage(@RequestParam("page") @Parameter(description = "页码") Integer page,
                                                  @RequestParam("pageSize") @Parameter(description = "每页数量") Integer pageSize) {
         return courseService.listCourseOverviewPage(page, pageSize);
     }
 
     @GetMapping("/getCourseDetail")
+    @Operation(summary = "获取课程详情")
     public CourseDetailVO getCourseDetail(@RequestParam("courseId") @Parameter(description = "课程id") Integer courseId) {
         return courseService.getCourseDetail(courseId);
     }
 
     @DeleteMapping("/deleteCourse")
+    @Operation(summary = "删除课程")
     public SuccessVO deleteCourse(@RequestParam("courseId") @Parameter(description = "课程id") Integer courseId) {
         return courseService.deleteCourse(courseId);
     }
 
     @PutMapping("/updateCourse")
+    @Operation(summary = "更新课程")
     public SuccessVO updateCourse(@RequestBody @Parameter(description = "课程信息") CourseUpdateDTO courseUpdateDTO) {
         return courseService.updateCourse(courseUpdateDTO);
     }
 
     @PostMapping("/createCourse")
-    public SuccessVO createCourse(@RequestBody @Parameter(description = "课程信息") CourseCreateDTO courseCreateDTO) {
+    @Operation(summary = "创建课程")
+    public SuccessVO<Long> createCourse(@RequestBody @Parameter(description = "课程信息") CourseCreateDTO courseCreateDTO) {
         return courseService.createCourse(courseCreateDTO);
     }
 
-    // todo 使用大模型生成课程基本内容
-    @PostMapping(value = "/generateCourseBaseInfo", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public SseEmitter generateCourseBaseInfo(@RequestBody GenerateCourseDTO generateCourseDTO) {
+    @PostMapping("/createCourseFirst")
+    @Operation(summary = "创建课程第一步信息")
+    public SuccessVO<Long> createCourseFirst(@RequestBody @Parameter(description = "课程信息") CourseCreateDTO courseCreateDTO) {
+        return courseService.createCourseFirst(courseCreateDTO);
+    }
+
+    @PutMapping("/updateCourseFirst")
+    @Operation(summary = "更新课程第一步信息")
+    public SuccessVO<Long> updateCourseFirst(@RequestBody @Parameter(description = "课程信息") CourseUpdateDTO courseUpdateDTO) {
+        return courseService.updateCourseFirst(courseUpdateDTO);
+    }
+
+    @Operation(summary = "使用大模型生成课程基本内容（第一步）")
+    @GetMapping(value = "/generateCourseBaseInfo", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public SseEmitter generateCourseBaseInfo(GenerateCourseDTO generateCourseDTO) {
         return courseService.generateCourseBaseInfo(generateCourseDTO);
+    }
+
+    @Operation(summary = "使用大模型生成课程目标（第一步）")
+    @GetMapping(value = "/generateCourseObjectives", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public SseEmitter generateCourseObjectives(@RequestParam Long courseId) {
+        return courseService.generateCourseObjectives(courseId);
     }
 
     // todo 使用大模型生成课程

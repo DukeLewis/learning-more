@@ -22,4 +22,7 @@ public class GenerateCourseDTO {
 
     @Schema(description = "最大学生数")
     private Integer maxStudents;
+
+    @Schema(description = "课程类型")
+    private String type;
 }

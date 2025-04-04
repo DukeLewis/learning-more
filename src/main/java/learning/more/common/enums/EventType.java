@@ -20,5 +20,10 @@ public enum EventType {
     /**
      * 参数消息
      */
-    PARAM
+    PARAM,
+
+    /**
+     * 关闭
+     */
+    CLOSE;
 }

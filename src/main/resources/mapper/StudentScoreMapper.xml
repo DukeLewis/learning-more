@@ -19,4 +19,12 @@
         score,updated_time,created_time,
         is_deleted
     </sql>
+    <select id="listInfoByStudentId" resultType="learning.more.model.vo.StudentInfoVo$StudentScoreVO">
+        SELECT sc.score,
+               c.name courseName
+        FROM student_score sc
+                 LEFT JOIN course c ON sc.course_id = c.id
+        WHERE sc.student_id = #{id}
+          AND sc.is_deleted = 0
+    </select>
 </mapper>

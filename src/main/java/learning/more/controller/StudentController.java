@@ -4,11 +4,11 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
-import learning.more.model.vo.PageItem;
-import learning.more.model.vo.StudentInfoDTO;
-import learning.more.model.vo.StudentOverviewVO;
-import learning.more.model.vo.SuccessVO;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import learning.more.model.vo.*;
 import learning.more.service.student.IStudentService;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +22,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/student")
 @Tag(name = "2.学生模块")
+@Validated
 public class StudentController {
     @Resource
     private IStudentService studentService;
@@ -37,6 +38,12 @@ public class StudentController {
     public PageItem<List<StudentOverviewVO>> listStudentOverviewPage(@RequestParam("page") @Parameter(description = "页码") Integer page,
                                                                      @RequestParam("limit") @Parameter(description = "每页数量") Integer limit){
         return studentService.listStudentOverviewPage(page, limit);
+    }
+
+    @GetMapping("/getStudentInfo/{id}")
+    @Operation(summary = "获取学生信息")
+    public StudentInfoVo getStudentInfo(@PathVariable("id") @Min(0) @NotNull Long id){
+        return studentService.getStudentInfo(id);
     }
 
     @PostMapping("/createStudent")

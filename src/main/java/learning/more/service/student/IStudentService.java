@@ -1,9 +1,6 @@
 package learning.more.service.student;
 
-import learning.more.model.vo.PageItem;
-import learning.more.model.vo.StudentInfoDTO;
-import learning.more.model.vo.StudentOverviewVO;
-import learning.more.model.vo.SuccessVO;
+import learning.more.model.vo.*;
 
 import java.util.List;
 
@@ -49,4 +46,11 @@ public interface IStudentService {
      * @return 操作成功响应
      */
     SuccessVO updateStudent(StudentInfoDTO studentInfoDTO);
+
+    /**
+     * 获取学生信息
+     * @param id 学生 id
+     * @return 学生信息
+     */
+    StudentInfoVo getStudentInfo(Long id);
 }

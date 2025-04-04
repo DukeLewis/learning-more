@@ -9,4 +9,5 @@ package learning.more.common.enums;
 public enum PromptType {
     TEST,
     COURSE_BASE_INFO,
+    COURSE_OBJECTIVES,
 }

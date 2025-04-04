@@ -54,7 +54,7 @@ public interface ICourseService {
      * @param courseCreateDTO 创建课程信息
      * @return 操作成功响应
      */
-    SuccessVO createCourse(CourseCreateDTO courseCreateDTO);
+    SuccessVO<Long> createCourse(CourseCreateDTO courseCreateDTO);
 
     /**
      * 生成课程基本信息
@@ -62,4 +62,25 @@ public interface ICourseService {
      * @return SSE 响应
      */
     SseEmitter generateCourseBaseInfo(GenerateCourseDTO generateCourseDTO);
+
+    /**
+     * 创建课程（第一阶段）
+     * @param courseCreateDTO 创建课程信息
+     * @return 操作成功响应
+     */
+    SuccessVO<Long> createCourseFirst(CourseCreateDTO courseCreateDTO);
+
+    /**
+     * 更新课程（第一阶段）
+     * @param courseUpdateDTO 课程更新信息
+     * @return 操作成功响应
+     */
+    SuccessVO<Long> updateCourseFirst(CourseUpdateDTO courseUpdateDTO);
+
+    /**
+     * 生成课程目标
+     * @param courseId 课程id
+     * @return SSE 响应
+     */
+    SseEmitter generateCourseObjectives(Long courseId);
 }

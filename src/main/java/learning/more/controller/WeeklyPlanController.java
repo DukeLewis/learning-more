@@ -25,7 +25,6 @@ public class WeeklyPlanController {
     private IWeeklyPlanService weeklyPlanService;
 
     @GetMapping("/listWeeklyPlanPage")
-    // todo 添加班级id和学校id作为筛选条件
     public PageItem<List<WeeklyPlanOverviewVO>> listWeeklyPlanPage(
             @RequestParam("pageNum") @Parameter(description = "页码") Integer pageNum,
             @RequestParam("pageSize") @Parameter(description = "每页数量") Integer pageSize,
