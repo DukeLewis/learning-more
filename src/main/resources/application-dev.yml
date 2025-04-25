@@ -13,6 +13,11 @@ langchain4j:
 #tavily:
 #  api-key: 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
 spring:
+  freemarker:
+    template-loader-path: classpath:/templates/
+    suffix: .ftl
+    charset: UTF-8
+    cache: false
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/learning_more?useSSL=false&useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true

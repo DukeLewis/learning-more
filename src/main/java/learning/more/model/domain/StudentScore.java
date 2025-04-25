@@ -9,7 +9,7 @@ import java.util.Date;
 import lombok.Data;
 
 /**
- * 
+ *
  * @TableName student_score
  */
 @TableName(value ="student_score")
@@ -26,6 +26,12 @@ public class StudentScore implements Serializable {
      */
     @TableField(value = "student_id")
     private Integer studentId;
+
+    /**
+     * 租户id
+     */
+    @TableField(value = "tenant_id")
+    private Long tenantId;
 
     /**
      * 课程id

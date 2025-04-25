@@ -1,6 +1,7 @@
 package learning.more.service.course;
 
 import io.swagger.v3.oas.annotations.Parameter;
+import learning.more.model.domain.CourseObjectives;
 import learning.more.model.dto.CourseCreateDTO;
 import learning.more.model.dto.CourseUpdateDTO;
 import learning.more.model.dto.GenerateCourseDTO;
@@ -83,4 +84,18 @@ public interface ICourseService {
      * @return SSE 响应
      */
     SseEmitter generateCourseObjectives(Long courseId);
+
+    /**
+     * 更新课程（第二阶段）
+     * @param courseObjectivesList 课程目标信息
+     * @return 操作成功响应
+     */
+    SuccessVO<List<CourseObjectives>> createOrUpdateCourseSecond(List<CourseObjectives> courseObjectivesList);
+
+    /**
+     * 生成课程活动
+     * @param courseId 课程 id
+     * @return 流式响应
+     */
+    SseEmitter generateCourseActivities(Long courseId);
 }

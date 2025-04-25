@@ -9,7 +9,7 @@ import java.util.Date;
 import lombok.Data;
 
 /**
- * 
+ *
  * @TableName weekly_plan_item
  */
 @TableName(value ="weekly_plan_item")
@@ -26,6 +26,12 @@ public class WeeklyPlanItem implements Serializable {
      */
     @TableField(value = "course_id")
     private Integer courseId;
+
+    /**
+     * 租户id
+     */
+    @TableField(value = "tenant_id")
+    private Long tenantId;
 
     /**
      * 周计划id

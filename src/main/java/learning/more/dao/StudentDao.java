@@ -25,7 +25,8 @@ public interface StudentDao extends IService<Student> {
      * 获取班级信息概览分页列表
      * @param page 页码
      * @param limit 每页数量
+     * @param student 学生信息
      * @return 分页数据结果
      */
-    PageItem<List<StudentOverviewVO>> listStudentOverviewPage(Integer page, Integer limit);
+    PageItem<List<StudentOverviewVO>> listStudentOverviewPage(Integer page, Integer limit, Student student);
 }

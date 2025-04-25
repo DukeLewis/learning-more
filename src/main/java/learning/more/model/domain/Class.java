@@ -35,6 +35,12 @@ public class Class implements Serializable {
     private Long teacherId;
 
     /**
+     * 租户id
+     */
+    @TableField(value = "tenant_id")
+    private Long tenantId;
+
+    /**
      * 班级名称
      */
     @TableField(value = "name")

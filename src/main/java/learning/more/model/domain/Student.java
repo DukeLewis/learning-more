@@ -1,5 +1,6 @@
 package learning.more.model.domain;
 
+import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -22,6 +23,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class Student implements Serializable {
+    public static final String FIELD_ID = "id";
+    public static final String FIELD_TENANT_ID = "tenantId";
+    public static final String FIELD_NAME = "name";
+    public static final String FIELD_GENDER = "gender";
+    public static final String FIELD_AGE = "age";
+    public static final String FIELD_CLASS_ID = "classId";
+    public static final String FIELD_UPDATED_TIME = "updatedTime";
+    public static final String FIELD_CREATED_TIME = "createdTime";
+    public static final String FIELD_IS_DELETED = "isDeleted";
+    public static final String FIELD_CLASS_NAME = "className";
+
     /**
      * 主键id
      */
@@ -29,27 +41,37 @@ public class Student implements Serializable {
     private Long id;
 
     /**
+     * 租户id
+     */
+    @TableField(value = "tenant_id")
+    private Long tenantId;
+
+    /**
      * 学生名称
      */
     @TableField(value = "name")
+    @ExcelProperty("学生姓名")
     private String name;
 
     /**
      * 性别
      */
     @TableField(value = "gender")
+    @ExcelProperty("性别")
     private String gender;
 
     /**
      * 年龄
      */
     @TableField(value = "age")
+    @ExcelProperty("年龄")
     private Integer age;
 
     /**
      * 所属班级id
      */
     @TableField(value = "class_id")
+    @ExcelProperty("班级id")
     private Long classId;
 
     /**
@@ -69,6 +91,10 @@ public class Student implements Serializable {
      */
     @TableField(value = "is_deleted")
     private Integer isDeleted;
+
+    @TableField(exist = false)
+    @ExcelProperty("班级名称")
+    private String className;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

@@ -10,15 +10,40 @@
         WHERE class_id = #{classId} AND is_deleted = 0
     </select>
     <select id="listStudentOverviewPage" resultType="learning.more.model.vo.StudentOverviewVO">
-        SELECT s.id id,
-               s.name name,
-               s.gender gender,
-               s.age age,
-               c.name className
+        SELECT
+        s.id id,
+        s.name name,
+        s.gender gender,
+        s.age age,
+        c.name className
         FROM student s
-                 LEFT JOIN class c ON s.class_id = c.id
-        WHERE s.is_deleted = 0
-          AND c.is_deleted = 0
+        LEFT JOIN class c ON
+        s.class_id = c.id
+        AND s.is_deleted = 0
+        AND c.is_deleted = 0
+        <where>  <!-- 动态添加 WHERE 条件 -->
+            <if test="student.id != null">
+                AND s.id = #{student.id}
+            </if>
+            <if test="student.tenantId != null">
+                AND s.tenant_id = #{student.tenantId}
+            </if>
+            <if test="student.name != null and student.name != ''">
+                AND s.name LIKE CONCAT('%', #{student.name}, '%')
+            </if>
+            <if test="student.gender != null and student.gender != ''">
+                AND s.gender LIKE CONCAT('%', #{student.gender}, '%')
+            </if>
+            <if test="student.age != null">
+                AND s.age = #{student.age}
+            </if>
+            <if test="student.classId != null">
+                AND s.class_id = #{student.classId}
+            </if>
+            <if test="student.className != null and student.className != ''">
+                AND c.name LIKE CONCAT('%', #{student.className}, '%')
+            </if>
+        </where>
         ORDER BY s.created_time
     </select>
 </mapper>

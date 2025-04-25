@@ -10,4 +10,5 @@ public enum PromptType {
     TEST,
     COURSE_BASE_INFO,
     COURSE_OBJECTIVES,
+    COURSE_ACTIVITIES,
 }

@@ -27,8 +27,8 @@ public class StudentDaoImpl extends ServiceImpl<StudentMapper, Student>
     }
 
     @Override
-    public PageItem<List<StudentOverviewVO>> listStudentOverviewPage(Integer page, Integer limit) {
-        Page<StudentOverviewVO> studentOverviewVOS = this.baseMapper.listStudentOverviewPage(Page.of(page, limit));
+    public PageItem<List<StudentOverviewVO>> listStudentOverviewPage(Integer page, Integer limit, Student student) {
+        Page<StudentOverviewVO> studentOverviewVOS = this.baseMapper.listStudentOverviewPage(Page.of(page, limit), student);
         return new PageItem<>(studentOverviewVOS.getTotal(), studentOverviewVOS.getPages(), page, studentOverviewVOS.getRecords());
     }
 }

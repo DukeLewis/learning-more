@@ -234,11 +234,34 @@ public class CourseServiceImpl implements ICourseService {
 
     @Override
     public SseEmitter generateCourseObjectives(Long courseId) {
-        // todo 生成课程目标，未测试
         Map<String, Object> map = new HashMap<>();
         Course course = courseDao.getById(courseId);
         course.toMap(map);
         Prompt prompt = promptDao.lambdaQuery().eq(Prompt::getPromptType, PromptType.COURSE_OBJECTIVES.toString())
+                .eq(Prompt::getActive, 0).one();
+        String promptRes = StringUtil.parsePromptString(prompt.getPrompt(), map);
+        SseEmitter sseEmitter = new SseEmitter();
+        aiService.createStreamChatCompletionAll(promptRes, sseEmitter);
+        return sseEmitter;
+    }
+
+    @Override
+    public SuccessVO<List<CourseObjectives>> createOrUpdateCourseSecond(List<CourseObjectives> courseObjectivesList) {
+        List<CourseObjectives> saveList = courseObjectivesList.stream().filter(courseObjectives -> courseObjectives.getId() == null).toList();
+        List<CourseObjectives> updateList = courseObjectivesList.stream().filter(courseObjectives -> courseObjectives.getId() != null).toList();
+        courseObjectivesDao.saveBatch(saveList);
+        courseObjectivesDao.updateBatchById(updateList);
+        return SuccessVO.successWithData(courseObjectivesList);
+    }
+
+    @Override
+    public SseEmitter generateCourseActivities(Long courseId) {
+        Map<String, Object> map = new HashMap<>();
+        Course course = courseDao.getById(courseId);
+        course.toMap(map);
+        List<CourseObjectives> courseObjectivesList = courseObjectivesDao.lambdaQuery().eq(CourseObjectives::getCourseId, courseId)
+                .list();
+        Prompt prompt = promptDao.lambdaQuery().eq(Prompt::getPromptType, PromptType.COURSE_ACTIVITIES.toString())
                 .eq(Prompt::getActive, 0).one();
         String promptRes = StringUtil.parsePromptString(prompt.getPrompt(), map);
         SseEmitter sseEmitter = new SseEmitter();

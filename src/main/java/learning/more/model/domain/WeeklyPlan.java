@@ -34,6 +34,12 @@ public class WeeklyPlan implements Serializable {
     private String name;
 
     /**
+     * 租户id
+     */
+    @TableField(value = "tenant_id")
+    private Long tenantId;
+
+    /**
      * 周计划所属学校id
      */
     @TableField(value = "school_id")

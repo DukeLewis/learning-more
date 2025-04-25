@@ -1,7 +1,10 @@
 package learning.more.service.student;
 
+import learning.more.model.domain.Student;
 import learning.more.model.vo.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -22,9 +25,10 @@ public interface IStudentService {
      * 获取班级信息概览分页列表
      * @param page 页码
      * @param limit 每页数量
+     * @param student 学生信息
      * @return 分页数据结果
      */
-    PageItem<List<StudentOverviewVO>> listStudentOverviewPage(Integer page, Integer limit);
+    PageItem<List<StudentOverviewVO>> listStudentOverviewPage(Integer page, Integer limit, Student student);
 
     /**
      * 创建学生信息
@@ -53,4 +57,11 @@ public interface IStudentService {
      * @return 学生信息
      */
     StudentInfoVo getStudentInfo(Long id);
+
+    /**
+     * 导入学生信息
+     * @param file excel 文件
+     * @return 操作成功响应
+     */
+    SuccessVO<Void> importExcel(MultipartFile file) throws IOException;
 }

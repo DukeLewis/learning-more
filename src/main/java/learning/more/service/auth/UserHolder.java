@@ -20,6 +20,14 @@ public class UserHolder {
     }
 
     /**
+     * 获取当前租户 id
+     * @return 租户 id
+     */
+    public static Long tenantId() {
+        return getUser().getTenantId();
+    }
+
+    /**
      * 获取当前用户 id
      * @return 用户 id
      */

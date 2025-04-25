@@ -1,5 +1,6 @@
 package learning.more.model.domain;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -17,7 +18,7 @@ public class CourseResources implements Serializable {
     /**
      * 	资源唯一标识符
      */
-    @TableId(value = "id")
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     /**
@@ -25,6 +26,12 @@ public class CourseResources implements Serializable {
      */
     @TableField(value = "course_id")
     private Integer courseId;
+
+    /**
+     * 租户id
+     */
+    @TableField(value = "tenant_id")
+    private Long tenantId;
 
     /**
      * 资源名称

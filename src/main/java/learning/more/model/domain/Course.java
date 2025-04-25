@@ -42,6 +42,12 @@ public class Course implements Serializable {
     private Integer teacherId;
 
     /**
+     * 租户id
+     */
+    @TableField(value = "tenant_id")
+    private Long tenantId;
+
+    /**
      * 当前完成度阶段
      */
     @TableField(value = "active_step")

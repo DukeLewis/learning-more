@@ -26,9 +26,10 @@ public interface StudentMapper extends BaseMapper<Student> {
     /**
      * 获取班级信息概览分页列表
      * @param pageList 分页对象
+     * @param student 学生信息
      * @return 分页数据结果
      */
-    Page<StudentOverviewVO> listStudentOverviewPage(@Param("pageList") Page<StudentOverviewVO> pageList);
+    Page<StudentOverviewVO> listStudentOverviewPage(@Param("pageList") Page<StudentOverviewVO> pageList, Student student);
 }
 
 

@@ -2,6 +2,7 @@ package learning.more.model.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.NotNull;
 import learning.more.model.domain.CourseActivities;
 import learning.more.model.domain.CourseObjectives;
 import lombok.AllArgsConstructor;
@@ -23,6 +24,7 @@ import java.util.List;
 @Tag(name = "课程信息更新DTO")
 public class CourseUpdateDTO {
     @Schema(description = "课程 id")
+    @NotNull
     private Long id;
 
     @Schema(description = "课程名称")

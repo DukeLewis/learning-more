@@ -4,6 +4,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import jakarta.validation.Valid;
+import learning.more.model.domain.CourseObjectives;
 import learning.more.model.dto.CourseCreateDTO;
 import learning.more.model.dto.CourseUpdateDTO;
 import learning.more.model.dto.GenerateCourseDTO;
@@ -78,11 +80,22 @@ public class CourseController {
         return courseService.generateCourseBaseInfo(generateCourseDTO);
     }
 
-    @Operation(summary = "使用大模型生成课程目标（第一步）")
+    @Operation(summary = "使用大模型生成课程目标（第二步）")
     @GetMapping(value = "/generateCourseObjectives", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public SseEmitter generateCourseObjectives(@RequestParam Long courseId) {
         return courseService.generateCourseObjectives(courseId);
     }
 
-    // todo 使用大模型生成课程
+    @PostMapping("/createOrUpdateCourseSecond")
+    @Operation(summary = "创建课程第二步信息")
+    public SuccessVO<List<CourseObjectives>> createOrUpdateCourseSecond(@RequestBody @Parameter(description = "课程目标信息") List<CourseObjectives> courseObjectivesList) {
+        return courseService.createOrUpdateCourseSecond(courseObjectivesList);
+    }
+
+    @PostMapping("/generateCourseActivities")
+    @Operation(summary = "使用大模型生成课程活动信息（第三步）")
+    public SseEmitter generateCourseActivities(@RequestParam Long courseId) {
+        return courseService.generateCourseActivities(courseId);
+    }
+
 }
