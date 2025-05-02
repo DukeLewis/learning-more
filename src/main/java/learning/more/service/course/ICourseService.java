@@ -1,6 +1,7 @@
 package learning.more.service.course;
 
 import io.swagger.v3.oas.annotations.Parameter;
+import learning.more.model.domain.Course;
 import learning.more.model.domain.CourseObjectives;
 import learning.more.model.dto.CourseCreateDTO;
 import learning.more.model.dto.CourseUpdateDTO;
@@ -25,9 +26,10 @@ public interface ICourseService {
      * 获取课程概览列表
      * @param page 页码
      * @param pageSize 每页数量
+     * @param course 课程查询对象
      * @return 查询结果
      */
-    PageItem<List<CourseOverviewVO>> listCourseOverviewPage(Integer page, Integer pageSize);
+    PageItem<List<CourseOverviewVO>> listCourseOverviewPage(Integer page, Integer pageSize, Course course);
 
     /**
      * 获取课程详情

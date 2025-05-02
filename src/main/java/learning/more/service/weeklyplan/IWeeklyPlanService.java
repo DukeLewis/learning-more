@@ -2,9 +2,7 @@ package learning.more.service.weeklyplan;
 
 import learning.more.model.dto.WeeklyPlanCreateDTO;
 import learning.more.model.dto.WeeklyPlanUpdateDTO;
-import learning.more.model.vo.PageItem;
-import learning.more.model.vo.SuccessVO;
-import learning.more.model.vo.WeeklyPlanOverviewVO;
+import learning.more.model.vo.*;
 
 import java.util.List;
 
@@ -40,4 +38,11 @@ public interface IWeeklyPlanService {
      * @return 操作成功响应
      */
     SuccessVO deleteWeeklyPlan(Long planId);
+
+    /**
+     * 获取周计划详情
+     * @param planId 周计划ID
+     * @return 周计划详情
+     */
+    WeeklyPlanDetail getWeeklyPlanDetail(Long planId);
 }

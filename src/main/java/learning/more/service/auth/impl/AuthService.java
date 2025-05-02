@@ -46,6 +46,7 @@ public class AuthService extends ServiceImpl<UserMapper, User> implements IAuthS
         log.info("开始验证----");
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                 new UsernamePasswordAuthenticationToken(username, password);
+        // 进行账号密码校验
         Authentication authenticate = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
         if(Objects.isNull(authenticate)){
             throw new ApplicationException(AppResult.failed(ResultCode.FAILED_LOGIN));

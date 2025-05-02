@@ -58,14 +58,19 @@ public class CourseServiceImpl implements ICourseService {
     private PromptDao promptDao;
 
     @Override
-    public PageItem<List<CourseOverviewVO>> listCourseOverviewPage(Integer page, Integer pageSize) {
+    public PageItem<List<CourseOverviewVO>> listCourseOverviewPage(Integer page, Integer pageSize, Course course) {
         if (page == null || pageSize == null || pageSize <= 0 || page <= 0) {
             throw new ApplicationException(AppResult.failed(ResultCode.FAILED_PARAMS_VALIDATE));
         }
         Page<Course> pageObj = new Page<>(page, pageSize);
         Page<Course> coursePage = courseDao.getBaseMapper().selectPage(pageObj,
                 new LambdaQueryWrapper<Course>().select(Course::getId, Course::getName, Course::getDuration,
-                        Course::getDescription, Course::getUpdatedTime).eq(Course::getIsDeleted, 0));
+                        Course::getDescription, Course::getUpdatedTime)
+                        .like(!StringUtil.isNullAndEmpty(course.getName()), Course::getName, course.getName())
+                        .like(!StringUtil.isNullAndEmpty(course.getType()), Course::getType, course.getType())
+                        .eq(course.getDuration() != null && course.getDuration() > 0, Course::getDuration, course.getDuration())
+                        .eq(Course::getTenantId, course.getTenantId())
+                        .eq(Course::getIsDeleted, 0));
         List<CourseOverviewVO> courseOverviewVOS = CourseOverviewVO.coursePage2VO(coursePage);
         return new PageItem<>(coursePage.getTotal(), coursePage.getPages(), page, courseOverviewVOS);
     }

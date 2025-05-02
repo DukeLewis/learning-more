@@ -83,6 +83,7 @@ public class StudentController {
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=data_import_template.xlsx");
 
+        // 插入样例数据
         List<Student> sampleData = new ArrayList<>();
         Student student = new Student();
         student.setAge(18);
@@ -91,6 +92,7 @@ public class StudentController {
         student.setClassName("A101");
         sampleData.add(student);
 
+        // 设置需要排除的列
         Set<String> excludeColumnFiledNames = new HashSet<>();
         excludeColumnFiledNames.add(Student.FIELD_CREATED_TIME);
         excludeColumnFiledNames.add(Student.FIELD_UPDATED_TIME);

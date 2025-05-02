@@ -1,7 +1,9 @@
 package learning.more.service.clazz;
 
+import learning.more.model.domain.Class;
 import learning.more.model.vo.ClassInfoVO;
 import learning.more.model.vo.ClassOverviewVO;
+import learning.more.model.vo.PageItem;
 import learning.more.model.vo.SuccessVO;
 
 import java.util.List;
@@ -40,4 +42,13 @@ public interface IClassService {
      * @return 操作结果
      */
     SuccessVO updateClass(ClassInfoVO classInfoVO);
+
+    /**
+     * 获取班级信息概览分页列表
+     * @param page 页码
+     * @param limit 每页数量
+     * @param clazz 查询条件
+     * @return 分页列表
+     */
+    PageItem<List<ClassOverviewVO>> listClassOverviewPage(Integer page, Integer limit, Class clazz);
 }

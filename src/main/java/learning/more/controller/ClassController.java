@@ -4,9 +4,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
-import learning.more.model.vo.ClassInfoVO;
-import learning.more.model.vo.ClassOverviewVO;
-import learning.more.model.vo.SuccessVO;
+import learning.more.model.domain.Class;
+import learning.more.model.domain.Student;
+import learning.more.model.vo.*;
+import learning.more.service.auth.UserHolder;
 import learning.more.service.clazz.IClassService;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +30,15 @@ public class ClassController {
     @Operation(summary = "获取班级信息概览列表")
     public List<ClassOverviewVO> listClassOverview(@RequestParam(name = "schoolId", required = false) @Parameter(description = "学校 id") Long schoolId){
         return classService.listClassOverview(schoolId);
+    }
+
+    @GetMapping("/listClassOverviewPage")
+    @Operation(summary = "获取学生信息列表")
+    public PageItem<List<ClassOverviewVO>> listClassOverviewPage(@RequestParam("page") @Parameter(description = "页码") Integer page,
+                                                                     @RequestParam("limit") @Parameter(description = "每页数量") Integer limit,
+                                                                     Class clazz){
+        clazz.setTenantId(UserHolder.getTenantId());
+        return classService.listClassOverviewPage(page, limit, clazz);
     }
 
     @GetMapping("/getClassInfo")

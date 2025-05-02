@@ -14,11 +14,11 @@ import learning.more.model.domain.School;
 import learning.more.model.domain.WeeklyPlan;
 import learning.more.model.dto.WeeklyPlanCreateDTO;
 import learning.more.model.dto.WeeklyPlanUpdateDTO;
-import learning.more.model.vo.PageItem;
-import learning.more.model.vo.SuccessVO;
-import learning.more.model.vo.WeeklyPlanOverviewVO;
+import learning.more.model.vo.*;
+import learning.more.service.auth.UserHolder;
 import learning.more.service.weeklyplan.IWeeklyPlanService;
 import learning.more.util.StringUtil;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -135,5 +135,34 @@ public class WeeklyPlanServiceImpl implements IWeeklyPlanService {
             throw new ApplicationException(AppResult.failed(ResultCode.FAILED));
         }
         return SuccessVO.successNotData();
+    }
+
+    @Override
+    public WeeklyPlanDetail getWeeklyPlanDetail(Long planId) {
+        if (planId == null) {
+            throw new ApplicationException(AppResult.failed(ResultCode.FAILED_PARAMS_VALIDATE));
+        }
+        WeeklyPlanDetail res = new WeeklyPlanDetail();
+        WeeklyPlan weeklyPlan = weeklyPlanDao.lambdaQuery()
+                .eq(WeeklyPlan::getId, planId)
+                .eq(WeeklyPlan::getIsDeleted, 0)
+                .eq(WeeklyPlan::getTenantId, UserHolder.getTenantId())
+                .one();
+        BeanUtils.copyProperties(weeklyPlan, res);
+        Class clazz = classDao.getOne(new LambdaQueryWrapper<Class>().select(Class::getName)
+                .eq(Class::getId, weeklyPlan.getClassId())
+                .eq(Class::getIsDeleted, 0));
+        if (clazz != null) {
+            res.setClassName(clazz.getName());
+        }
+        School school = schoolDao.getOne(new LambdaQueryWrapper<School>().select(School::getName)
+                .eq(School::getId, weeklyPlan.getSchoolId())
+                .eq(School::getIsDeleted, 0));
+        if (school != null) {
+            res.setSchoolName(school.getName());
+        }
+        List<WeeklyPlanItemDetail> planItemDetails = weeklyPlanDao.getWeeklyPlanDetail(planId);
+        res.setItems(planItemDetails);
+        return res;
     }
 }

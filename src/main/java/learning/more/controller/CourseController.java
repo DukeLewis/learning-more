@@ -5,11 +5,13 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
+import learning.more.model.domain.Course;
 import learning.more.model.domain.CourseObjectives;
 import learning.more.model.dto.CourseCreateDTO;
 import learning.more.model.dto.CourseUpdateDTO;
 import learning.more.model.dto.GenerateCourseDTO;
 import learning.more.model.vo.*;
+import learning.more.service.auth.UserHolder;
 import learning.more.service.course.ICourseService;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -34,8 +36,10 @@ public class CourseController {
     @GetMapping("/listCourseOverviewPage")
     @Operation(summary = "分页获取课程概览信息")
     public PageItem<List<CourseOverviewVO>> listCourseOverviewPage(@RequestParam("page") @Parameter(description = "页码") Integer page,
-                                                 @RequestParam("pageSize") @Parameter(description = "每页数量") Integer pageSize) {
-        return courseService.listCourseOverviewPage(page, pageSize);
+                                                                   @RequestParam("pageSize") @Parameter(description = "每页数量") Integer pageSize,
+                                                                   Course course) {
+        course.setTenantId(UserHolder.getTenantId());
+        return courseService.listCourseOverviewPage(page, pageSize, course);
     }
 
     @GetMapping("/getCourseDetail")

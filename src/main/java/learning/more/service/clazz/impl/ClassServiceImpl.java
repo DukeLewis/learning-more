@@ -8,6 +8,7 @@ import learning.more.exception.ApplicationException;
 import learning.more.model.domain.Class;
 import learning.more.model.vo.ClassInfoVO;
 import learning.more.model.vo.ClassOverviewVO;
+import learning.more.model.vo.PageItem;
 import learning.more.model.vo.SuccessVO;
 import learning.more.service.clazz.IClassService;
 import org.springframework.stereotype.Service;
@@ -68,5 +69,10 @@ public class ClassServiceImpl implements IClassService {
             throw new ApplicationException(AppResult.failed(ResultCode.FAILED));
         }
         return SuccessVO.successNotData();
+    }
+
+    @Override
+    public PageItem<List<ClassOverviewVO>> listClassOverviewPage(Integer page, Integer limit, Class clazz) {
+        return classDao.listClassOverviewPage(page, limit, clazz);
     }
 }

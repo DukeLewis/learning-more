@@ -4,6 +4,7 @@ import learning.more.model.domain.Class;
 import com.baomidou.mybatisplus.extension.service.IService;
 import learning.more.model.vo.ClassInfoVO;
 import learning.more.model.vo.ClassOverviewVO;
+import learning.more.model.vo.PageItem;
 
 import java.util.List;
 
@@ -27,4 +28,13 @@ public interface ClassDao extends IService<Class> {
      * @return 班级详细信息
      */
     ClassInfoVO getClassInfo(Long id);
+
+    /**
+     * 获取班级概览分页
+     * @param page 页码
+     * @param limit 每页数量
+     * @param clazz 查询条件
+     * @return 班级概览分页信息
+     */
+    PageItem<List<ClassOverviewVO>> listClassOverviewPage(Integer page, Integer limit, Class clazz);
 }

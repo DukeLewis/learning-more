@@ -17,4 +17,26 @@
         ON c.teacher_id = u.id
         WHERE c.id = #{id} AND c.is_deleted = 0
     </select>
+    <select id="listClassOverviewPage" resultType="learning.more.model.vo.ClassOverviewVO">
+        SELECT c.id id,
+               c.name className,
+               c.quantity studentCount,
+               c.created_time createTime
+        FROM `class` c
+        LEFT JOIN school s
+        ON c.school_id = s.id AND s.is_deleted = 0
+        WHERE c.is_deleted = 0
+        <if test="clazz.schoolId != null">
+            AND c.school_id = #{clazz.schoolId}
+        </if>
+        <if test="clazz.name != null and !clazz.name.isEmpty()">
+            AND c.name LIKE CONCAT('%', #{clazz.name}, '%')
+        </if>
+        <if test="clazz.grade != null and !clazz.grade.isEmpty()">
+            AND c.grade LIKE CONCAT('%', #{clazz.grade}, '%')
+        </if>
+        <if test="clazz.school != null and !clazz.school.isEmpty()">
+            AND s.name LIKE CONCAT('%', #{clazz.school}, '%')
+        </if>
+    </select>
 </mapper>

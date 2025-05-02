@@ -4,7 +4,10 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import learning.more.model.domain.WeeklyPlan;
 import learning.more.dao.WeeklyPlanDao;
 import learning.more.dao.mapper.WeeklyPlanMapper;
+import learning.more.model.vo.WeeklyPlanItemDetail;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
 * @author ASUS
@@ -15,6 +18,10 @@ import org.springframework.stereotype.Service;
 public class WeeklyPlanDaoImpl extends ServiceImpl<WeeklyPlanMapper, WeeklyPlan>
     implements WeeklyPlanDao {
 
+    @Override
+    public List<WeeklyPlanItemDetail> getWeeklyPlanDetail(Long planId) {
+        return this.baseMapper.getWeeklyPlanDetail(planId);
+    }
 }
 
 

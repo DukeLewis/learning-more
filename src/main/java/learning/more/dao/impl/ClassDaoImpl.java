@@ -1,5 +1,6 @@
 package learning.more.dao.impl;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import learning.more.dao.SchoolDao;
@@ -9,6 +10,8 @@ import learning.more.dao.mapper.ClassMapper;
 import learning.more.model.domain.School;
 import learning.more.model.vo.ClassInfoVO;
 import learning.more.model.vo.ClassOverviewVO;
+import learning.more.model.vo.PageItem;
+import learning.more.model.vo.StudentOverviewVO;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -51,6 +54,12 @@ public class ClassDaoImpl extends ServiceImpl<ClassMapper, Class>
     @Override
     public ClassInfoVO getClassInfo(Long id) {
         return this.baseMapper.getClassInfo(id);
+    }
+
+    @Override
+    public PageItem<List<ClassOverviewVO>> listClassOverviewPage(Integer page, Integer limit, Class clazz) {
+        Page<ClassOverviewVO> classOverviewVOPage = this.baseMapper.listClassOverviewPage(Page.of(page, limit), clazz);
+        return new PageItem<>(classOverviewVOPage.getTotal(), classOverviewVOPage.getPages(), page, classOverviewVOPage.getRecords());
     }
 }
 

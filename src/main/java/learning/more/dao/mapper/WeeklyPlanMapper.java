@@ -2,6 +2,9 @@ package learning.more.dao.mapper;
 
 import learning.more.model.domain.WeeklyPlan;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import learning.more.model.vo.WeeklyPlanItemDetail;
+
+import java.util.List;
 
 /**
 * @author ASUS
@@ -11,6 +14,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 */
 public interface WeeklyPlanMapper extends BaseMapper<WeeklyPlan> {
 
+    List<WeeklyPlanItemDetail> getWeeklyPlanDetail(Long planId);
 }
 
 

@@ -17,4 +17,24 @@
         id,name,class_id,
         updated_time,created_time,is_deleted
     </sql>
+    <select id="getWeeklyPlanDetail" resultType="learning.more.model.vo.WeeklyPlanItemDetail">
+        <bind name="tenantId" value="@learning.more.service.auth.UserHolder@getTenantId()"/>
+        SELECT
+        wpi.id,
+        wpi.course_id,
+        wpi.sort_num,
+        wpi.day_of_week,
+        wpi.is_deleted,
+        wpi.created_time,
+        wpi.updated_time,
+        c.name AS courseName,
+        c.duration AS duration
+        FROM
+        weekly_plan_item wpi
+        LEFT JOIN
+        course c ON wpi.course_id = c.id AND c.is_deleted = 0
+        WHERE wpi.tenant_id = #{tenantId}
+        AND wpi.id = #{planId}
+        AND wpi.is_deleted = 0
+    </select>
 </mapper>
