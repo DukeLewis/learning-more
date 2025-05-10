@@ -25,6 +25,7 @@ import learning.more.model.vo.CourseOverviewVO;
 import learning.more.model.vo.PageItem;
 import learning.more.model.vo.SuccessVO;
 import learning.more.service.ai.api.AiService;
+import learning.more.service.auth.UserHolder;
 import learning.more.service.course.ICourseService;
 import learning.more.util.StringUtil;
 import org.apache.commons.text.StringSubstitutor;
@@ -151,6 +152,7 @@ public class CourseServiceImpl implements ICourseService {
         }
         Course course = Course.builder()
                 .name(courseCreateDTO.getCourseName())
+                .tenantId(UserHolder.getTenantId())
                 .duration(courseCreateDTO.getDuration())
                 .description(courseCreateDTO.getCourseDescription())
                 .ageGroup(courseCreateDTO.getAgeGroup())
@@ -198,6 +200,7 @@ public class CourseServiceImpl implements ICourseService {
     @Override
     public SuccessVO<Long> createCourseFirst(CourseCreateDTO courseCreateDTO) {
         Course course = Course.builder()
+                .tenantId(UserHolder.getTenantId())
                 .name(courseCreateDTO.getCourseName())
                 .duration(courseCreateDTO.getDuration())
                 .description(courseCreateDTO.getCourseDescription())
@@ -251,9 +254,13 @@ public class CourseServiceImpl implements ICourseService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public SuccessVO<List<CourseObjectives>> createOrUpdateCourseSecond(List<CourseObjectives> courseObjectivesList) {
         List<CourseObjectives> saveList = courseObjectivesList.stream().filter(courseObjectives -> courseObjectives.getId() == null).toList();
         List<CourseObjectives> updateList = courseObjectivesList.stream().filter(courseObjectives -> courseObjectives.getId() != null).toList();
+        Integer courseId = courseObjectivesList.get(0).getCourseId();
+        courseObjectivesDao.remove(new LambdaQueryWrapper<CourseObjectives>()
+                .eq(CourseObjectives::getCourseId, courseId));
         courseObjectivesDao.saveBatch(saveList);
         courseObjectivesDao.updateBatchById(updateList);
         return SuccessVO.successWithData(courseObjectivesList);
@@ -272,5 +279,18 @@ public class CourseServiceImpl implements ICourseService {
         SseEmitter sseEmitter = new SseEmitter();
         aiService.createStreamChatCompletionAll(promptRes, sseEmitter);
         return sseEmitter;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public SuccessVO<List<CourseActivities>> createOrUpdateCourseThird(List<CourseActivities> courseActivitiesList) {
+        List<CourseActivities> saveList = courseActivitiesList.stream().filter(courseActivities -> courseActivities.getId() == null).toList();
+        List<CourseActivities> updateList = courseActivitiesList.stream().filter(courseActivities -> courseActivities.getId() != null).toList();
+        Integer courseId = courseActivitiesList.get(0).getCourseId();
+        courseActivitiesDao.remove(new LambdaQueryWrapper<CourseActivities>()
+                .eq(CourseActivities::getCourseId, courseId));
+        courseActivitiesDao.saveBatch(saveList);
+        courseActivitiesDao.updateBatchById(updateList);
+        return SuccessVO.successWithData(courseActivitiesList);
     }
 }

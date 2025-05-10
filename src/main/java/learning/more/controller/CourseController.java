@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import learning.more.model.domain.Course;
+import learning.more.model.domain.CourseActivities;
 import learning.more.model.domain.CourseObjectives;
 import learning.more.model.dto.CourseCreateDTO;
 import learning.more.model.dto.CourseUpdateDTO;
@@ -96,10 +97,16 @@ public class CourseController {
         return courseService.createOrUpdateCourseSecond(courseObjectivesList);
     }
 
-    @PostMapping("/generateCourseActivities")
+    @GetMapping("/generateCourseActivities")
     @Operation(summary = "使用大模型生成课程活动信息（第三步）")
     public SseEmitter generateCourseActivities(@RequestParam Long courseId) {
         return courseService.generateCourseActivities(courseId);
+    }
+
+    @PostMapping("/createOrUpdateCourseThird")
+    @Operation(summary = "创建课程第三步信息")
+    public SuccessVO<List<CourseActivities>> createOrUpdateCourseThird(@RequestBody @Parameter(description = "课程活动信息") List<CourseActivities> courseActivitiesList) {
+        return courseService.createOrUpdateCourseThird(courseActivitiesList);
     }
 
 }

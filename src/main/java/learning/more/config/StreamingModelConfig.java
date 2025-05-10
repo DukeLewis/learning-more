@@ -40,6 +40,7 @@ public class StreamingModelConfig {
         return OpenAiStreamingChatModel.builder()
                 .baseUrl(baseUrl)
                 .apiKey(apiKey)
+                .temperature(0D)
                 .modelName(modelName)
                 .build();
     }
