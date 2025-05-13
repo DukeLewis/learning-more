@@ -6,58 +6,26 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  *
- * @TableName user
+ * @TableName tenant
  */
-@TableName(value ="user")
+@TableName(value ="tenant")
 @Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class User implements Serializable {
+public class Tenant implements Serializable {
     /**
-     * 主键 id
+     * 主键id
      */
-    @TableId(value = "id")
-    private Integer id;
+    @TableId(value = "id", type = IdType.AUTO)
+    private Long id;
 
     /**
-     * 姓名
+     * 名称
      */
     @TableField(value = "name")
     private String name;
-
-    /**
-     * 用户名称
-     */
-    @TableField(value = "username")
-    private String username;
-
-    /**
-     * 密码
-     */
-    @TableField(value = "password")
-    private String password;
-
-    /**
-     * 租户id
-     */
-    @TableField(value = "tenant_id")
-    private Long tenantId;
-
-    /**
-     * 用户类型
-     */
-    @TableField(value = "type")
-    private String type;
 
     /**
      * 更新时间

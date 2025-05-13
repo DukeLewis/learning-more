@@ -4,6 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  *  用户校验实体类对象
@@ -19,10 +20,17 @@ public class AuthUserEntity extends User {
      */
     private Long tenantId;
 
-    public AuthUserEntity(String username, String password, Collection<? extends GrantedAuthority> authorities, Integer id, Long tenantId) {
+    /**
+     * 角色编码
+     */
+    private List<String> roleCode;
+
+    public AuthUserEntity(String username, String password, Collection<? extends GrantedAuthority> authorities,
+                          Integer id, Long tenantId, List<String> roleCode) {
         super(username, password, authorities);
         this.id = id;
         this.tenantId = tenantId;
+        this.roleCode = roleCode;
     }
 
     public Integer getId() {
@@ -31,5 +39,9 @@ public class AuthUserEntity extends User {
 
     public Long getTenantId() {
         return tenantId;
+    }
+
+    public List<String> getRoleCode() {
+        return roleCode;
     }
 }

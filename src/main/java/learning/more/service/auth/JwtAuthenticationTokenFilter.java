@@ -21,6 +21,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * token检查过滤器
@@ -81,7 +82,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
         long id = Long.parseLong(String.valueOf(claims.get("id")));
 
-        SimpleUserVo simpleUserEntity = new SimpleUserVo(id, (String) claims.get("username"), Long.parseLong(String.valueOf(claims.get("tenantId"))));
+        SimpleUserVo simpleUserEntity = new SimpleUserVo(id, (String) claims.get("username"), Long.parseLong(String.valueOf(claims.get("tenantId"))), (List<String>) claims.get("roleCodeList"));
 
         //todo 后续如果需要鉴权可以传入权限列表
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =

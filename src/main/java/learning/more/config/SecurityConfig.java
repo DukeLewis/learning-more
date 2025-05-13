@@ -4,9 +4,15 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import jakarta.annotation.Resource;
 import learning.more.common.AppResult;
 import learning.more.common.enums.ResultCode;
+import learning.more.dao.RoleDao;
+import learning.more.dao.UserRoleRelationDao;
+import learning.more.dao.mapper.RoleMapper;
 import learning.more.dao.mapper.UserMapper;
+import learning.more.dao.mapper.UserRoleRelationMapper;
 import learning.more.exception.ApplicationException;
+import learning.more.model.domain.Role;
 import learning.more.model.domain.User;
+import learning.more.model.domain.UserRoleRelation;
 import learning.more.model.entity.AuthUserEntity;
 import learning.more.service.auth.JwtAuthenticationTokenFilter;
 import lombok.RequiredArgsConstructor;
@@ -50,6 +56,12 @@ public class SecurityConfig {
     @Resource
     private UserMapper userMapper;
 
+    @Resource
+    private RoleDao roleDao;
+
+    @Resource
+    private UserRoleRelationDao userRoleRelationDao;
+
 
     /**
      * 密码明文加密方式配置
@@ -86,7 +98,16 @@ public class SecurityConfig {
             if(user==null){
                 throw new ApplicationException(AppResult.failed(ResultCode.FAILED_USER_NOT_EXISTS));
             }
-            return new AuthUserEntity(username, user.getPassword(), Collections.EMPTY_LIST, user.getId(), user.getTenantId());
+            List<UserRoleRelation> userRoleRelations = userRoleRelationDao.lambdaQuery()
+                    .select(UserRoleRelation::getRoleId)
+                    .eq(UserRoleRelation::getUserId, user.getId())
+                    .list();
+            List<Role> roleList = roleDao.lambdaQuery()
+                    .select(Role::getRoleCode)
+                    .eq(Role::getActive, 0)
+                    .in(Role::getId, userRoleRelations.stream().map(UserRoleRelation::getRoleId).toList())
+                    .list();
+            return new AuthUserEntity(username, user.getPassword(), Collections.EMPTY_LIST, user.getId(), user.getTenantId(), roleList.stream().map(Role::getRoleCode).toList());
         };
     }
 

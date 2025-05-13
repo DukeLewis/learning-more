@@ -3,6 +3,8 @@ package learning.more.service.auth;
 import learning.more.model.vo.SimpleUserVo;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.util.List;
+
 /**
  * @description: 存储当前线程的用户上下文信息
  * @author：dukelewis
@@ -25,6 +27,14 @@ public class UserHolder {
      */
     public static Long tenantId() {
         return getUser().getTenantId();
+    }
+
+    /**
+     * 获取当前用户角色编码列表
+     * @return 角色编码列表
+     */
+    public static List<String> getRoleCodeList() {
+        return getUser().getRoleCodeList();
     }
 
     /**
